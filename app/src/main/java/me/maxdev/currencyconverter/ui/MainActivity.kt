@@ -1,7 +1,8 @@
-package me.maxdev.currencyconverter
+package me.maxdev.currencyconverter.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import me.maxdev.currencyconverter.R
 import me.maxdev.currencyconverter.ui.currencyconverter.CurrencyConverterFragment
 
 class MainActivity : AppCompatActivity() {
