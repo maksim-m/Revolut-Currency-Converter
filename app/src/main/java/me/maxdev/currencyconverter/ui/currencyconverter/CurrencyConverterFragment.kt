@@ -1,4 +1,4 @@
-package me.maxdev.currencyconverter.ui.main
+package me.maxdev.currencyconverter.ui.currencyconverter
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import me.maxdev.currencyconverter.R
 
-class MainFragment : Fragment() {
+class CurrencyConverterFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = CurrencyConverterFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: CurrencyConverterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +25,7 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(CurrencyConverterViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
