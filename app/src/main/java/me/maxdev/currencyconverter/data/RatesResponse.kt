@@ -4,7 +4,7 @@ import java.util.*
 
 
 data class RatesResponse(
-    private val base: String,
-    private val date: Date,
-    private val rates: Map<String, Double>
+    val base: String,
+    val date: Date,
+    val rates: Map<String, Double>
 )
