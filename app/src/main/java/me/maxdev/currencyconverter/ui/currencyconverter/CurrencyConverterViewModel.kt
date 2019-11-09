@@ -1,5 +1,6 @@
 package me.maxdev.currencyconverter.ui.currencyconverter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,8 +12,8 @@ import me.maxdev.currencyconverter.rates.CurrencyRatesRepository
 class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepository) :
     ViewModel() {
 
-    private val _rates = MutableLiveData<List<String>>(emptyList())
-    val rates: LiveData<List<String>> = _rates
+    private val _rates = MutableLiveData<List<CurrencyRateItem>>().apply { value = emptyList() }
+    val rates: LiveData<List<CurrencyRateItem>> = _rates
 
     init {
         loadRates()
@@ -21,7 +22,11 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
     fun loadRates() {
         viewModelScope.launch {
             when (val result = ratesRepository.getCurrencyRates()) {
-                is Result.Success -> _rates.value = result.data.rates.keys.toList()
+                is Result.Success -> {
+                    _rates.value = result.data.rates.entries.map {
+                            entry: Map.Entry<String, Double> -> CurrencyRateItem(entry.key)
+                    }
+                }
                 is Result.Error -> TODO()
             }
         }

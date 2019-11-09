@@ -5,22 +5,38 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import me.maxdev.currencyconverter.R
+import me.maxdev.currencyconverter.databinding.CurrencyConverterFragmentBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class CurrencyConverterFragment : Fragment() {
 
     companion object {
-        fun newInstance() = CurrencyConverterFragment()
+        fun create() = CurrencyConverterFragment()
     }
 
-    val viewModel: CurrencyConverterViewModel by viewModel()
+    private val viewModel by viewModel<CurrencyConverterViewModel>()
+
+    private lateinit var viewBinding: CurrencyConverterFragmentBinding
+
+    private lateinit var adapter: CurrencyRatesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        viewBinding = CurrencyConverterFragmentBinding.inflate(inflater, container, false).apply {
+            vm = viewModel
+        }
+        return viewBinding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewBinding.lifecycleOwner = this.viewLifecycleOwner
+        val vm = viewBinding.vm
+        if (vm != null) {
+            adapter = CurrencyRatesAdapter(vm)
+            viewBinding.ratesList.adapter = adapter
+        }
+    }
 }
