@@ -9,7 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import me.maxdev.currencyconverter.data.RatesResponse
+import me.maxdev.currencyconverter.api.RatesResponse
 import me.maxdev.currencyconverter.data.Result
 import me.maxdev.currencyconverter.rates.CurrencyRatesRepository
 import org.junit.After
@@ -53,12 +53,16 @@ class CurrencyConverterViewModelTest {
     fun `load items from repository`() = runBlockingTest {
         whenever(mockRepository.getCurrencyRates()).thenReturn(
             Result.Success(
-                RatesResponse("EUR", Date(), hashMapOf("USD" to 1.2345))
+                RatesResponse(
+                    "EUR",
+                    Date(),
+                    hashMapOf("USD" to 1.2345)
+                )
             )
         )
 
         viewModel.loadRates()
 
-        assertThat(viewModel.rates.value).containsExactly("USD")
+        assertThat(viewModel.rates.value).containsExactly(CurrencyRateItem("USD"))
     }
 }

@@ -1,7 +1,8 @@
 package me.maxdev.currencyconverter.app
 
 import android.app.Application
-import me.maxdev.currencyconverter.app.di.Modules
+import me.maxdev.currencyconverter.app.di.appModule
+import me.maxdev.currencyconverter.app.di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -13,7 +14,7 @@ class CurrencyConverterApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@CurrencyConverterApplication)
-            modules(Modules.appModule)
+            modules(listOf(appModule, networkModule))
         }
     }
 

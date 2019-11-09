@@ -1,6 +1,5 @@
 package me.maxdev.currencyconverter.ui.currencyconverter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,9 +22,10 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
         viewModelScope.launch {
             when (val result = ratesRepository.getCurrencyRates()) {
                 is Result.Success -> {
-                    _rates.value = result.data.rates.entries.map {
-                            entry: Map.Entry<String, Double> -> CurrencyRateItem(entry.key)
-                    }
+                    _rates.value =
+                        result.data.rates.entries.map { entry: Map.Entry<String, Double> ->
+                            CurrencyRateItem(entry.key)
+                        }
                 }
                 is Result.Error -> TODO()
             }

@@ -6,12 +6,9 @@ import me.maxdev.currencyconverter.ui.currencyconverter.CurrencyConverterViewMod
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-object Modules {
+val appModule = module {
 
-    val appModule = module {
+    single<CurrencyRatesRepository> { RevolutCurrencyRatesRepository(get()) }
 
-        single<CurrencyRatesRepository> { RevolutCurrencyRatesRepository() }
-
-        viewModel { CurrencyConverterViewModel(get()) }
-    }
+    viewModel { CurrencyConverterViewModel(get()) }
 }
