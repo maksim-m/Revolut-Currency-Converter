@@ -41,7 +41,7 @@ class CurrencyRatesAdapter(private val viewModel: CurrencyConverterViewModel) :
 
 class TaskDiffCallback : DiffUtil.ItemCallback<CurrencyRateItem>() {
     override fun areItemsTheSame(oldItem: CurrencyRateItem, newItem: CurrencyRateItem): Boolean {
-        return oldItem == newItem
+        return oldItem.name == newItem.name
     }
 
     override fun areContentsTheSame(oldItem: CurrencyRateItem, newItem: CurrencyRateItem): Boolean {
