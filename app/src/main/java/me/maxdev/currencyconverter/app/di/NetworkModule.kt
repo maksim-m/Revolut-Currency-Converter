@@ -5,6 +5,7 @@ import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import me.maxdev.currencyconverter.api.CurrencyRatesApi
 import org.koin.dsl.module
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 
@@ -25,6 +26,7 @@ private fun provideRetrofit(moshi: Moshi): Retrofit {
     return Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
 }
 

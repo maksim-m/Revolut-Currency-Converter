@@ -1,41 +1,52 @@
 package me.maxdev.currencyconverter.ui.currencyconverter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.launch
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import me.maxdev.currencyconverter.api.RatesResponse
 import me.maxdev.currencyconverter.rates.CurrencyRatesRepository
 
-@ExperimentalCoroutinesApi
 class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepository) :
     ViewModel() {
 
     private val _rates = MutableLiveData<List<CurrencyRateItem>>(emptyList())
     val rates: LiveData<List<CurrencyRateItem>> = _rates
 
-    init {
-        loadRates()
+    private val disposable: CompositeDisposable = CompositeDisposable()
+
+    private fun subscribeToRates() {
+        Log.e("xxx", "subscribeToRates")
+        ratesRepository.getCurrencyRates()
+            .subscribeOn(Schedulers.io())
+            .map { ratesResponse: RatesResponse -> asdasd(ratesResponse) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { items -> _rates.value = items },
+                { error -> Log.e("xxx", error.message!!) }
+            ).addTo(disposable)
     }
 
-    @UseExperimental(InternalCoroutinesApi::class)
-    fun loadRates() {
-        viewModelScope.launch {
-            val a = ratesRepository.getCurrencyRates()
-                .collect(object : FlowCollector<RatesResponse> {
-                    override suspend fun emit(value: RatesResponse) {
-                        _rates.value = value.rates.entries.map { entry: Map.Entry<String, Double> ->
-                            CurrencyRateItem(entry.key, entry.value.toString())
-                        }
-                    }
-                })
+    override fun onCleared() {
+        super.onCleared()
+        disposable.clear()
+    }
+
+    fun onPause() {
+        disposable.clear()
+    }
+
+    fun onResume() {
+        subscribeToRates()
+    }
+
+    private fun asdasd(ratesResponse: RatesResponse): List<CurrencyRateItem> {
+        return ratesResponse.rates.entries.map { entry: Map.Entry<String, Double> ->
+            CurrencyRateItem(entry.key, entry.value.toString())
         }
     }
 }

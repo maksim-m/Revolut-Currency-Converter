@@ -30,6 +30,16 @@ class CurrencyConverterFragment : Fragment() {
         return viewBinding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.onPause()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewBinding.lifecycleOwner = this.viewLifecycleOwner
