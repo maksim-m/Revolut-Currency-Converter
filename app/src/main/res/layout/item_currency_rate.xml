@@ -16,7 +16,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> vm.onItemClicked(currencyrateitem)}">
 
         <TextView
             android:id="@+id/label"
@@ -35,6 +36,7 @@
             android:ems="10"
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
+            android:onClick="@{() -> vm.onEditTextClicked(currencyrateitem)}"
             android:text="@{currencyrateitem.rate}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

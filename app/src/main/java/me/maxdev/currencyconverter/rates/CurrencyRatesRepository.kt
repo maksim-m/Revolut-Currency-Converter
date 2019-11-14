@@ -5,5 +5,5 @@ import me.maxdev.currencyconverter.api.RatesResponse
 
 interface CurrencyRatesRepository {
 
-    fun getCurrencyRates(): Observable<RatesResponse>
+    fun getCurrencyRates(base: String): Observable<RatesResponse>
 }
