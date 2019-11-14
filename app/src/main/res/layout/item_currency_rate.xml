@@ -40,7 +40,8 @@
             android:text="@{currencyrateitem.rate}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:on_focus_change="@{() -> vm.onEditTextClicked(currencyrateitem)}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
