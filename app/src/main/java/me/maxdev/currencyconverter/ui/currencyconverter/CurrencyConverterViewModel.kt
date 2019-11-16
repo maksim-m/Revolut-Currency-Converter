@@ -38,7 +38,7 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
             ratesObservable(),
             BiFunction<Base, RatesResponse, List<CurrencyRateItem>> { base: Base, ratesResponse: RatesResponse ->
                 ratesResponse.rates.entries.map { entry: Map.Entry<String, Double> ->
-                    CurrencyRateItem(entry.key, (entry.value * base.amount).toString())
+                    CurrencyRateItem(entry.key, entry.value * base.amount)
                 }
             })
             .map { items ->
@@ -72,7 +72,7 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
     fun onItemClicked(item: CurrencyRateItem) {
         Log.e("xxx", "onItemClicked $item")
         val currentBase = baseObservable.value!!
-        val newBase = currentBase.copy(amount = item.rate.toDouble(), currencyCode = item.name)
+        val newBase = currentBase.copy(amount = item.value, currencyCode = item.name)
         Log.e("xxx", "new Base: $newBase")
         baseObservable.onNext(newBase)
     }

@@ -12,6 +12,9 @@
         <variable
             name="vm"
             type="me.maxdev.currencyconverter.ui.currencyconverter.CurrencyConverterViewModel" />
+
+        <import type="me.maxdev.currencyconverter.ui.currencyconverter.Converter" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +40,7 @@
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:onClick="@{() -> vm.onEditTextClicked(currencyrateitem)}"
-            android:text="@{currencyrateitem.rate}"
+            android:text="@{Converter.doubleToString(currencyrateitem.value)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
