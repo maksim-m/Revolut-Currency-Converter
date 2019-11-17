@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="me.maxdev.currencyconverter.ui.currencyconverter.CurrencyConverterViewModel" />
@@ -16,6 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.currencyconverter.CurrencyConverterFragment">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/error_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:visibility="@{vm.showError ? View.VISIBLE : View.GONE}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rates_list"

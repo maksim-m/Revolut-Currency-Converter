@@ -11,9 +11,13 @@ class RevolutCurrencyRatesRepository(
 ) :
     CurrencyRatesRepository {
 
+    private companion object {
+        private val TAG = RevolutCurrencyRatesRepository::class.java.simpleName
+    }
+
     override fun getCurrencyRates(base: String): Observable<RatesResponse> =
         Observable.interval(0, 1, TimeUnit.SECONDS)
-            .flatMapSingle { number -> currencyRatesApi.getRates(base) }
-            .doOnNext { Log.e("xxx", "request $base") }
+            .flatMapSingle { currencyRatesApi.getRates(base) }
+            .doOnNext { Log.d(TAG, "request $base") }
 
 }

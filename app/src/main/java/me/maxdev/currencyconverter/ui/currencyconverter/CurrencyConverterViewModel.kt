@@ -22,11 +22,15 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
     ViewModel() {
 
     companion object {
+        private val TAG = CurrencyConverterViewModel::class.java.simpleName
         private val DEFAULT_BASE = Base(10.0, "EUR")
     }
 
     private val _rates = MutableLiveData<List<CurrencyRateItem>>(emptyList())
     val rates: LiveData<List<CurrencyRateItem>> = _rates
+
+    private val _showError = MutableLiveData<Boolean>(false)
+    val showError: LiveData<Boolean> = _showError
 
     private val baseObservable: BehaviorSubject<Base> =
         BehaviorSubject.createDefault(DEFAULT_BASE)
@@ -34,7 +38,6 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
     private val disposable: CompositeDisposable = CompositeDisposable()
 
     private fun subscribeToRates() {
-        Log.e("xxx", "subscribeToRates")
         Observable.combineLatest(
             baseObservable,
             ratesObservable(),
@@ -52,9 +55,15 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { items ->
+                    _showError.value = false
                     _rates.value = items
                 },
-                { error -> Log.e("xxx", error.message!!) }
+                { error ->
+                    if (rates.value.isNullOrEmpty()) {
+                        _showError.value = true
+                    }
+                    Log.e(TAG, error.toString())
+                }
             ).addTo(disposable)
     }
 
@@ -72,15 +81,13 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
     }
 
     fun onItemClicked(item: CurrencyRateItem) {
-        Log.e("xxx", "onItemClicked $item")
         val currentBase = baseObservable.value!!
         val newBase = currentBase.copy(amount = item.value, currencyCode = item.name)
-        Log.e("xxx", "new Base: $newBase")
+        Log.d(TAG, "new Base: $newBase")
         baseObservable.onNext(newBase)
     }
 
     fun onBaseAmountChanged(newValue: String) {
-        Log.e("xxx", "onBaseAmountChanged $newValue")
         val currentBase = baseObservable.value!!
         val numberFormat = NumberFormat.getInstance(Locale.US)
         val amount = numberFormat.parse(newValue)
@@ -89,7 +96,7 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
                 amount = amount?.toDouble() ?: 0.0,
                 currencyCode = currentBase.currencyCode
             )
-        Log.e("xxx", "new Base: $newBase")
+        Log.e(TAG, "new Base: $newBase")
         baseObservable.onNext(newBase)
     }
 
