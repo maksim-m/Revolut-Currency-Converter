@@ -7,12 +7,12 @@ import java.util.*
 
 
 fun doubleToString(value: Double): String {
-    val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+    val numberFormat = NumberFormat.getInstance(Locale.US)
     return numberFormat.format(value)
 }
 
 
 fun stringToDouble(value: String): Double {
-    val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+    val numberFormat = NumberFormat.getInstance(Locale.US)
     return numberFormat.parse(value)?.toDouble() ?: 0.0
 }

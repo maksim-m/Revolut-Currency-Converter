@@ -82,7 +82,7 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
     fun onBaseAmountChanged(newValue: String) {
         Log.e("xxx", "onBaseAmountChanged $newValue")
         val currentBase = baseObservable.value!!
-        val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+        val numberFormat = NumberFormat.getInstance(Locale.US)
         val amount = numberFormat.parse(newValue)
         val newBase =
             currentBase.copy(
