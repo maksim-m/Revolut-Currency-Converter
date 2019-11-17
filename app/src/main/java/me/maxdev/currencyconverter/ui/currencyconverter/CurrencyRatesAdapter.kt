@@ -2,15 +2,12 @@ package me.maxdev.currencyconverter.ui.currencyconverter
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import me.maxdev.currencyconverter.databinding.ItemCurrencyRateBinding
 
 class CurrencyRatesAdapter(private val viewModel: CurrencyConverterViewModel) :
-    ListAdapter<CurrencyRateItem, CurrencyRatesAdapter.ViewHolder>(TaskDiffCallback()) {
+    ListAdapter<CurrencyRateItem, ViewHolder>(ItemDiffCallback()) {
 
     private val textWatcher = object : TextWatcher {
 
@@ -26,44 +23,30 @@ class CurrencyRatesAdapter(private val viewModel: CurrencyConverterViewModel) :
         return ViewHolder.from(parent, textWatcher)
     }
 
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            holder.bindAmount(payloads[0] as Double)
+        }
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(viewModel, getItem(position))
     }
 
-    class ViewHolder private constructor(
-        private val binding: ItemCurrencyRateBinding,
-        private val textWatcher: TextWatcher
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(viewModel: CurrencyConverterViewModel, item: CurrencyRateItem) {
-            binding.editText.removeTextChangedListener(textWatcher)
-            binding.vm = viewModel
-            binding.currencyrateitem = item
-            binding.executePendingBindings()
-            if (item.editable) {
-                binding.editText.addTextChangedListener(textWatcher)
-            }
-        }
-
-        companion object {
-            fun from(parent: ViewGroup, textWatcher: TextWatcher): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemCurrencyRateBinding.inflate(layoutInflater, parent, false)
-
-                return ViewHolder(binding, textWatcher)
-            }
-        }
-    }
-
 }
 
-class TaskDiffCallback : DiffUtil.ItemCallback<CurrencyRateItem>() {
+class ItemDiffCallback : DiffUtil.ItemCallback<CurrencyRateItem>() {
     override fun areItemsTheSame(oldItem: CurrencyRateItem, newItem: CurrencyRateItem): Boolean {
         return oldItem.name == newItem.name
     }
 
     override fun areContentsTheSame(oldItem: CurrencyRateItem, newItem: CurrencyRateItem): Boolean {
         return oldItem == newItem
+    }
+
+    override fun getChangePayload(oldItem: CurrencyRateItem, newItem: CurrencyRateItem): Any? {
+        return newItem.value
     }
 }
