@@ -37,6 +37,7 @@ class CurrencyRatesAdapter(private val viewModel: CurrencyConverterViewModel) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(viewModel: CurrencyConverterViewModel, item: CurrencyRateItem) {
+            binding.editText.removeTextChangedListener(textWatcher)
             binding.vm = viewModel
             binding.currencyrateitem = item
             binding.executePendingBindings()
