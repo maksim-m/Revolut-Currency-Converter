@@ -2,14 +2,17 @@
 
 package me.maxdev.currencyconverter.ui.currencyconverter
 
+import java.text.NumberFormat
 import java.util.*
 
 
 fun doubleToString(value: Double): String {
-    return String.format(Locale.getDefault(), "%.2f", value)
+    val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+    return numberFormat.format(value)
 }
 
 
 fun stringToDouble(value: String): Double {
-    return value.toDouble()
+    val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+    return numberFormat.parse(value)?.toDouble() ?: 0.0
 }
