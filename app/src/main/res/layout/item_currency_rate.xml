@@ -39,12 +39,11 @@
             android:ems="10"
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
-            android:onClick="@{() -> vm.onEditTextClicked(currencyrateitem)}"
+            android:onClick="@{() -> vm.onItemClicked(currencyrateitem)}"
             android:text="@{Converter.doubleToString(currencyrateitem.value)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:on_focus_change="@{() -> vm.onEditTextClicked(currencyrateitem)}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

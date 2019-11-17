@@ -42,7 +42,7 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
                 }
             })
             .map { items ->
-                mutableListOf(baseObservable.value!!.toCurrencyRateItem()).apply {
+                mutableListOf(baseObservable.value!!.toBaseCurrencyRateItem()).apply {
                     addAll(items)
                 }
             }
@@ -77,10 +77,13 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
         baseObservable.onNext(newBase)
     }
 
-    fun onEditTextClicked(item: CurrencyRateItem) {
-        Log.e("xxx", "onEditTextClicked $item")
-        // TODO
-
+    fun onBaseAmountChanged(newValue: String) {
+        Log.e("xxx", "onBaseAmountChanged $newValue")
+        val currentBase = baseObservable.value!!
+        val newBase =
+            currentBase.copy(amount = newValue.toDouble(), currencyCode = currentBase.currencyCode)
+        Log.e("xxx", "new Base: $newBase")
+        baseObservable.onNext(newBase)
     }
 
 
