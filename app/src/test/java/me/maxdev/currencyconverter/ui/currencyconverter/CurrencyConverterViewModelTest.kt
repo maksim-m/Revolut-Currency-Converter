@@ -13,6 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import me.maxdev.currencyconverter.api.RatesResponse
 import me.maxdev.currencyconverter.data.CurrencyRateItem
 import me.maxdev.currencyconverter.data.CurrencyRatesRepository
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,12 +32,18 @@ class CurrencyConverterViewModelTest {
 
     @Before
     fun setUp() {
-        RxJavaPlugins.setIoSchedulerHandler { scheduler -> Schedulers.trampoline() }
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { scheduler -> Schedulers.trampoline() }
+        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
 
         mockRepository = mock {
         }
         viewModel = CurrencyConverterViewModel(mockRepository)
+    }
+
+    @After
+    fun tearDown() {
+        RxJavaPlugins.reset()
+        RxAndroidPlugins.reset()
     }
 
     @Test

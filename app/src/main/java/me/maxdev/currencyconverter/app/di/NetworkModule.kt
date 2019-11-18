@@ -9,7 +9,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 
-private val BASE_URL = "https://revolut.duckdns.org/"
+private const val BASE_URL = "https://revolut.duckdns.org/"
+
 
 val networkModule = module {
 
