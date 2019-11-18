@@ -23,7 +23,17 @@ class ViewHolder private constructor(
     }
 
     fun bindAmount(amount: Double) {
-        binding.editText.setText(CurrencyRateValueConverter.doubleToString(amount))
+        val textToSet = CurrencyRateValueConverter.doubleToString(amount)
+        if (binding.editText.text.toString() != textToSet) {
+            val selectionStart = binding.editText.selectionStart
+            binding.editText.setText(textToSet)
+            if (selectionStart <= textToSet.length) {
+                binding.editText.setSelection(selectionStart)
+            } else {
+                binding.editText.setSelection(textToSet.length)
+            }
+        }
+
     }
 
     companion object {

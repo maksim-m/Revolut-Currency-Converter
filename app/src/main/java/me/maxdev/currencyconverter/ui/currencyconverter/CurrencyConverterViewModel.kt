@@ -14,8 +14,6 @@ import io.reactivex.subjects.BehaviorSubject
 import me.maxdev.currencyconverter.api.RatesResponse
 import me.maxdev.currencyconverter.data.Base
 import me.maxdev.currencyconverter.rates.CurrencyRatesRepository
-import java.text.NumberFormat
-import java.util.*
 
 
 class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepository) :
@@ -91,11 +89,9 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
 
     fun onBaseAmountChanged(newValue: String) {
         val currentBase = baseObservable.value!!
-        val numberFormat = NumberFormat.getInstance(Locale.US)
-        val amount = numberFormat.parse(newValue)
         val newBase =
             currentBase.copy(
-                amount = amount?.toDouble() ?: 0.0,
+                amount = CurrencyRateValueConverter.stringToDouble(newValue),
                 currencyCode = currentBase.currencyCode
             )
         if (newBase != currentBase) {
