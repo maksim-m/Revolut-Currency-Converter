@@ -19,14 +19,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:onClick="@{() -> vm.onItemClicked(currencyrateitem)}">
 
         <TextView
             android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:layout_marginStart="16dp"
             android:text="@{currencyrateitem.name}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,9 +39,10 @@
             android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_marginEnd="16dp"
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
+            android:maxLength="11"
             android:onClick="@{() -> vm.onItemClicked(currencyrateitem)}"
             android:text="@{CurrencyRateValueConverter.doubleToString(currencyrateitem.value)}"
             app:layout_constraintBottom_toBottomOf="parent"
