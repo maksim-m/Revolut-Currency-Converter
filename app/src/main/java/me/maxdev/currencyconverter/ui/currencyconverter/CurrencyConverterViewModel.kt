@@ -83,8 +83,10 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
     fun onItemClicked(item: CurrencyRateItem) {
         val currentBase = baseObservable.value!!
         val newBase = currentBase.copy(amount = item.value, currencyCode = item.name)
-        Log.d(TAG, "new Base: $newBase")
-        baseObservable.onNext(newBase)
+        if (newBase.currencyCode != currentBase.currencyCode) {
+            Log.d(TAG, "new Base: $newBase")
+            baseObservable.onNext(newBase)
+        }
     }
 
     fun onBaseAmountChanged(newValue: String) {
@@ -96,8 +98,10 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
                 amount = amount?.toDouble() ?: 0.0,
                 currencyCode = currentBase.currencyCode
             )
-        Log.e(TAG, "new Base: $newBase")
-        baseObservable.onNext(newBase)
+        if (newBase != currentBase) {
+            Log.d(TAG, "new Base: $newBase")
+            baseObservable.onNext(newBase)
+        }
     }
 
 
