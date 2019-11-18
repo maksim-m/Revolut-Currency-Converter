@@ -11,7 +11,8 @@ import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import me.maxdev.currencyconverter.api.RatesResponse
-import me.maxdev.currencyconverter.rates.CurrencyRatesRepository
+import me.maxdev.currencyconverter.data.CurrencyRateItem
+import me.maxdev.currencyconverter.data.CurrencyRatesRepository
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

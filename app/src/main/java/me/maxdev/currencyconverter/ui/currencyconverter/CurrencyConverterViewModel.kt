@@ -12,7 +12,8 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import me.maxdev.currencyconverter.api.RatesResponse
 import me.maxdev.currencyconverter.data.Base
-import me.maxdev.currencyconverter.rates.CurrencyRatesRepository
+import me.maxdev.currencyconverter.data.CurrencyRateItem
+import me.maxdev.currencyconverter.data.CurrencyRatesRepository
 import timber.log.Timber
 
 
@@ -36,18 +37,11 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
 
     private fun subscribeToRates() {
         Observable.combineLatest(
-            baseObservable,
-            ratesObservable(),
+            baseObservable.subscribeOn(Schedulers.io()),
+            ratesObservable().subscribeOn(Schedulers.io()),
             BiFunction<Base, RatesResponse, List<CurrencyRateItem>> { base: Base, ratesResponse: RatesResponse ->
-                ratesResponse.rates.entries.map { entry: Map.Entry<String, Double> ->
-                    CurrencyRateItem(entry.key, entry.value * base.amount)
-                }
+                combineBaseAndResponse(base, ratesResponse)
             })
-            .map { items ->
-                mutableListOf(baseObservable.value!!.toBaseCurrencyRateItem()).apply {
-                    addAll(items)
-                }
-            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -102,5 +96,17 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
 
     private fun ratesObservable(): Observable<RatesResponse> {
         return baseObservable.switchMap { base -> ratesRepository.getCurrencyRates(base.currencyCode) }
+    }
+
+    private fun combineBaseAndResponse(base: Base, ratesResponse: RatesResponse): List<CurrencyRateItem> {
+        val currencyRateItems = ratesResponse.rates.entries.map { entry: Map.Entry<String, Double> ->
+            CurrencyRateItem(
+                entry.key,
+                entry.value * base.amount
+            )
+        }
+        return mutableListOf(base.toBaseCurrencyRateItem()).apply {
+            addAll(currencyRateItems)
+        }
     }
 }

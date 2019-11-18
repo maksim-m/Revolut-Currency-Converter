@@ -5,6 +5,7 @@ import android.text.TextWatcher
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import me.maxdev.currencyconverter.data.CurrencyRateItem
 
 class CurrencyRatesAdapter(private val viewModel: CurrencyConverterViewModel) :
     ListAdapter<CurrencyRateItem, ViewHolder>(ItemDiffCallback()) {

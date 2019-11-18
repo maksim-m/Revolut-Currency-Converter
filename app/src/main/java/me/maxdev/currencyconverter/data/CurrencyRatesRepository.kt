@@ -1,4 +1,4 @@
-package me.maxdev.currencyconverter.rates
+package me.maxdev.currencyconverter.data
 
 import io.reactivex.Observable
 import me.maxdev.currencyconverter.api.RatesResponse

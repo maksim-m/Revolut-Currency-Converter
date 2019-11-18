@@ -2,7 +2,7 @@ package me.maxdev.currencyconverter.ui
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import me.maxdev.currencyconverter.ui.currencyconverter.CurrencyRateItem
+import me.maxdev.currencyconverter.data.CurrencyRateItem
 import me.maxdev.currencyconverter.ui.currencyconverter.CurrencyRatesAdapter
 
 

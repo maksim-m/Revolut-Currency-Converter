@@ -4,6 +4,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import me.maxdev.currencyconverter.data.CurrencyRateItem
 import me.maxdev.currencyconverter.databinding.ItemCurrencyRateBinding
 
 class ViewHolder private constructor(
