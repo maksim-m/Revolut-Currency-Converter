@@ -1,21 +1,31 @@
 package me.maxdev.currencyconverter.ui.currencyconverter
 
-import java.text.NumberFormat
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.ParseException
-import java.util.*
 
 object CurrencyRateValueConverter {
 
+    fun getDecimalFormat(): DecimalFormat {
+        val decimalFormatSymbols = DecimalFormatSymbols().apply {
+            decimalSeparator = '.'
+        }
+        return DecimalFormat().apply {
+            setDecimalFormatSymbols(decimalFormatSymbols)
+            minimumFractionDigits = 0
+            maximumFractionDigits = 2
+            isGroupingUsed = false
+        }
+    }
+
     @JvmStatic
     fun doubleToString(value: Double): String {
-        val numberFormat = NumberFormat.getInstance(Locale.UK)
-        return numberFormat.format(value)
+        return getDecimalFormat().format(value)
     }
 
     fun stringToDouble(value: String): Double {
-        val numberFormat = NumberFormat.getInstance(Locale.UK)
         return try {
-            numberFormat.parse(value)?.toDouble() ?: 0.0
+            getDecimalFormat().parse(value)?.toDouble() ?: 0.0
         } catch (ex: ParseException) {
             0.0
         }
