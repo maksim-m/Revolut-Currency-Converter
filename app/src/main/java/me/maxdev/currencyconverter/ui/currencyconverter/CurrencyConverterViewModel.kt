@@ -1,6 +1,5 @@
 package me.maxdev.currencyconverter.ui.currencyconverter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,13 +13,13 @@ import io.reactivex.subjects.BehaviorSubject
 import me.maxdev.currencyconverter.api.RatesResponse
 import me.maxdev.currencyconverter.data.Base
 import me.maxdev.currencyconverter.rates.CurrencyRatesRepository
+import timber.log.Timber
 
 
 class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepository) :
     ViewModel() {
 
     companion object {
-        private val TAG = CurrencyConverterViewModel::class.java.simpleName
         private val DEFAULT_BASE = Base(10.0, "EUR")
     }
 
@@ -60,7 +59,7 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
                     if (rates.value.isNullOrEmpty()) {
                         _showError.value = true
                     }
-                    Log.e(TAG, error.toString())
+                    Timber.e(error)
                 }
             ).addTo(disposable)
     }
@@ -82,7 +81,7 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
         val currentBase = baseObservable.value!!
         val newBase = currentBase.copy(amount = item.value, currencyCode = item.name)
         if (newBase.currencyCode != currentBase.currencyCode) {
-            Log.d(TAG, "new Base: $newBase")
+            Timber.d("new Base: $newBase")
             baseObservable.onNext(newBase)
         }
     }
@@ -95,7 +94,7 @@ class CurrencyConverterViewModel(private val ratesRepository: CurrencyRatesRepos
                 currencyCode = currentBase.currencyCode
             )
         if (newBase != currentBase) {
-            Log.d(TAG, "new Base: $newBase")
+            Timber.d("new Base: $newBase")
             baseObservable.onNext(newBase)
         }
     }

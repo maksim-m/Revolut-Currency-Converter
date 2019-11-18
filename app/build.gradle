@@ -27,7 +27,6 @@ android {
 }
 
 dependencies {
-    def coroutines_version = "1.3.2"
     def lifecycle_version = "2.1.0"
     def fragment_version = "1.1.0"
     def retrofit_version = "2.6.2"
@@ -63,15 +62,14 @@ dependencies {
     implementation "com.squareup.moshi:moshi-adapters:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
+    implementation "com.jakewharton.timber:timber:4.7.1"
+
     testImplementation "junit:junit:4.12"
 
     testImplementation "org.mockito:mockito-core:3.1.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 
     testImplementation "com.google.truth:truth:1.0"
-
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
